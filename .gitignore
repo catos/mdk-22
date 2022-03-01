@@ -4,6 +4,8 @@ node_modules
 .vercel
 .output
 
+.env
+
 /build/
 /public/build
 /api/index.js
