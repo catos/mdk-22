@@ -3,20 +3,21 @@ import { getSession } from "~/utils/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"))
-  console.log("session", session);
   return session
 }
 
 export default function Index() {
-  const lol = useLoaderData()
-  console.log(lol);
-  
+  const session = useLoaderData()
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <h1>Welcome to MDK</h1>
+      <pre>{JSON.stringify(session)}</pre>
+      {session && <div>You are logged in - userId: {session.data.userId}</div>}
       <ul>
         <li><Link to="/login">Login</Link></li>
         <li><Link to="/register">Register</Link></li>
+        <li><Link to="/logout">Logout</Link></li>
       </ul>
 
       <h2>Remix docs</h2>

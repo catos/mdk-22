@@ -8,9 +8,12 @@ type ActionData = {
 };
 
 export const action: ActionFunction = async ({ request }): Promise<Response | ActionData> => {
-  let { username, password } = Object.fromEntries(
-    await request.formData()
-  );
+  const form = await request.formData()
+  const username = form.get("username")
+  const password = form.get("password")
+  // let { username, password } = Object.fromEntries(
+  //   await request.formData()
+  // );
 
   if (typeof username !== "string" || username.length < 3) {
     return { error: "Username must be at least 3 characters long" }    

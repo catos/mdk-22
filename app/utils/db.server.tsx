@@ -1,3 +1,4 @@
+// TODO: this is not only DB, supabase does more...
 import { createClient } from "@supabase/supabase-js";
 import { getSession } from "./session.server";
 
@@ -10,6 +11,7 @@ if (!url || !key) {
   throw new Error("supabase url || key not found...")
 }
 
+// TODO: rename to just "supabase"
 export const supabaseClient = createClient(url, key);
 
 /**
