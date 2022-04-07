@@ -12,7 +12,7 @@ if (!url || !key) {
 }
 
 // TODO: rename to just "supabase"
-export const supabaseClient = createClient(url, key);
+export const supabase = createClient(url, key);
 
 /**
  *
@@ -25,5 +25,5 @@ export const hasAuthSession = async (request: Request) => {
   if (!session.has("access_token")) 
     throw Error("No session");
 
-  supabaseClient.auth.setAuth(session.get("access_token"));
+  supabase.auth.setAuth(session.get("access_token"));
 };

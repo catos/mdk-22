@@ -1,23 +1,25 @@
-import { Link, LoaderFunction, useLoaderData } from "remix";
-import { getSession } from "~/utils/session.server";
+import { Form, Link, LoaderFunction, useLoaderData } from "remix";
+import { isAuthenticated } from "~/utils/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"))
-  return session
+  return await isAuthenticated(request, true);
 }
 
 export default function Index() {
-  const session = useLoaderData()
+  const user = useLoaderData()
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <h1>Welcome to MDK</h1>
-      <pre>{JSON.stringify(session)}</pre>
-      {session && <div>You are logged in - userId: {session.data.userId}</div>}
+      <pre>{JSON.stringify(user, null, 2)}</pre>
       <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/protected">Protected</Link></li>
         <li><Link to="/login">Login</Link></li>
         <li><Link to="/register">Register</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
+        <li><Form action='/logout' method='post'>
+          <button type="submit">Logout</button>
+        </Form></li>
       </ul>
 
       <h2>Remix docs</h2>

@@ -1,40 +1,57 @@
-import { ActionFunction, Form, Link, useActionData } from "remix"
-import { supabaseClient } from "~/utils/db.server";
-import { createUserSession } from "~/utils/session.server";
+import { ActionFunction, Form, json, Link, redirect, useActionData } from "remix"
+import { signInUser } from "~/utils/auth";
+import supabaseToken from "~/utils/cookie";
 
 type ActionData = {
   error?: string
-  form?: { username: string; password: string };
+  form?: { email: string; password: string };
 };
 
 export const action: ActionFunction = async ({ request }): Promise<Response | ActionData> => {
-  const form = await request.formData()
-  const username = form.get("username")
-  const password = form.get("password")
-  // let { username, password } = Object.fromEntries(
-  //   await request.formData()
-  // );
+  try {
 
-  if (typeof username !== "string" || username.length < 3) {
-    return { error: "Username must be at least 3 characters long" }    
+
+    const form = await request.formData()
+    const email = form.get("email")
+    const password = form.get("password")
+
+    if (typeof email !== "string" || email.length < 3) {
+      return json({ error: "Email must be at least 3 characters long" }, { status: 422 })
+    }
+
+    if (typeof password !== "string" || password.length < 6) {
+      return json({ error: "Password must be at least 6 characters long" }, { status: 422 })
+    }
+
+    const { user, session, error } = await signInUser(
+      email,
+      password,
+    );
+
+    if (user && session) {
+      return redirect("/", {
+        headers: {
+          "Set-Cookie":
+            await supabaseToken.serialize(
+              session.access_token,
+              {
+                // expires: new Date(
+                //   session.expires_at
+                // ),
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                maxAge: session.expires_in,
+              }
+            ),
+        },
+      });
+    }
+
+    throw error;
+
+  } catch (error) {
+    console.log("error", error);
+    return json({ error }, { status: 500 })
   }
-
-  if (typeof password !== "string" || password.length < 6) {
-    return { error: "Password must be at least 6 characters long" }    
-  }
-
-  const { user, error }  = await supabaseClient.auth.signIn({
-    email: username,
-    password,
-  });
-
-  console.log("user & error", user, error);
-
-  if (!error && user) {
-    return createUserSession(user.id, "/")
-  }
-
-  return { error: JSON.stringify(error) }
 }
 
 export default function Login() {
@@ -46,12 +63,12 @@ export default function Login() {
         <h1>Login</h1>
         <Form method="post">
           <div>
-            <label htmlFor="username-input">Username</label>
+            <label htmlFor="email-input">Email</label>
             <input
               type="text"
-              id="username-input"
-              name="username"
-              defaultValue={actionData?.form?.username}
+              id="email-input"
+              name="email"
+              defaultValue={actionData?.form?.email}
             />
           </div>
           <div>
