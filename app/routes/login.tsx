@@ -4,14 +4,12 @@ import { signInUser } from "~/utils/auth";
 import supabaseToken from "~/utils/cookie";
 
 type ActionData = {
-  error?: string
+  error?: { message: string, status: number }
   form?: { email: string; password: string };
 };
 
 export const action: ActionFunction = async ({ request }): Promise<Response | ActionData> => {
   try {
-
-
     const form = await request.formData()
     const email = form.get("email")
     const password = form.get("password")
@@ -48,9 +46,7 @@ export const action: ActionFunction = async ({ request }): Promise<Response | Ac
     }
 
     throw error;
-
   } catch (error) {
-    console.log("error", error);
     return json({ error }, { status: 500 })
   }
 }
@@ -84,7 +80,7 @@ export default function Login() {
           <div id="form-error-message">
             {actionData?.error ? (
               <p className="form-validation-error" role="alert">
-                {actionData.error}
+                {actionData.error.message}
               </p>
             ) : null}
           </div>
