@@ -1,4 +1,5 @@
-import { ActionFunction, Form, json, Link, useActionData } from "remix"
+import { ActionFunction, json } from "@remix-run/node";
+import { Form, Link, useActionData } from "@remix-run/react";
 import { createUser, IUser } from "~/utils/auth";
 
 type ActionData = {

@@ -1,4 +1,5 @@
-import { Form, Link, LoaderFunction, useLoaderData } from "remix";
+import { LoaderFunction } from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { isAuthenticated } from "~/utils/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -9,7 +10,7 @@ export default function Index() {
   const user = useLoaderData()
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+    <div>
       <h1>Welcome to MDK</h1>
       <pre>{JSON.stringify(user, null, 2)}</pre>
       <ul>

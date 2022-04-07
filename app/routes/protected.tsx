@@ -1,4 +1,5 @@
-import { Link, LoaderFunction, redirect } from "remix"
+import { Link } from "@remix-run/react"
+import { LoaderFunction, redirect } from "@remix-run/node"
 import { isAuthenticated } from "~/utils/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {

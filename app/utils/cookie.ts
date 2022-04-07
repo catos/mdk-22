@@ -1,5 +1,4 @@
-import { createCookie } from "remix";
-
+import { createCookie } from "@remix-run/node";
 
 const supabaseToken = createCookie("sb:token", {
   httpOnly: true,
