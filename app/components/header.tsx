@@ -14,19 +14,15 @@ export default function Header({ user }: Props) {
           <Logo />
         </Link>
         <div className="flex gap-4 items-center">
-          <Link to="/oppskrifter">Oppskrifter</Link>
-          <Link to="/">Home</Link>
-          <Link to="/protected">Protected</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
+          <Link to="/oppskrifter">Oppskrifter</Link>         
 
           {user ?
             (
               <>
                 <Link to="/admin">Admin</Link>
                 <span>{user.email}</span>
-                <Form action='/logout' method='post'>
-                  <button type="submit">Logout</button>
+                <Form action='/logg-ut' method='post'>
+                  <button type="submit">Logg ut</button>
                 </Form>
               </>
             )

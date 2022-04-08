@@ -1,9 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* 
-@layer components {
-  .custom-class {
-    @apply flex-1;
+
+@layer base {
+  h1 {
+    @apply text-4xl text-gray-800 pb-2;
   }
-} */
+  h2 {
+    @apply text-3xl text-gray-800 pb-2;
+  }
+  h3 {
+    @apply text-2xl text-gray-800 pb-2;
+  }
+  h4 {
+    @apply text-xl text-gray-800 pb-2;
+  }
+  a {
+    @apply text-blue-700 hover:underline;
+  }
+}
+
+@layer components {
+  .gradient {
+    @apply from-primary-600 via-primary-300 to-secondary-600;
+  }
+
+  .checkbox {
+    @apply w-[16px] h-[16px] border border-red-600 flex-shrink-0 select-none items-center inline-block cursor-pointer;
+  }
+
+  .button {
+    @apply rounded-lg 
+      border border-gray-400 
+      px-4 p-3 
+      cursor-pointer 
+      text-sm font-bold uppercase tracking-wider 
+      transition ease-linear duration-200 
+      hover:backdrop-brightness-90 hover:drop-shadow-lg hover:no-underline 
+      focus:outline-none focus:ring-2;
+  }
+
+  .button-primary {
+    @apply button 
+      border-0 
+      text-white 
+      bg-primary-700 
+      hover:bg-primary-800 
+      focus:ring-primary-600;
+  }
+
+  .button-secondary {
+    @apply button 
+      border-0 
+      text-white 
+      bg-secondary-500 
+      hover:bg-secondary-600 
+      focus:ring-secondary-600;
+  }
+
+  .error-container {
+    @apply bg-red-200 p-4 text-xl text-red-900 border border-red-400 rounded my-4 mx-auto w-11/12 md:w-2/3
+  }
+}

@@ -3,23 +3,20 @@ import { LoaderFunction, redirect } from "@remix-run/node"
 import { isAuthenticated } from "~/utils/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const authenticated = await isAuthenticated(request, true);
+  const authenticated = await isAuthenticated(request);
 
   if (!authenticated) {
-    return redirect("/login");
+    return redirect("/logg-inn");
   }
 
   return null
 }
 
-export default function Protected() {
+export default function Admin() {
   return (
-    <>
-      <h1>Protected route</h1>
+    <div className="container mx-auto">
+      <h1>Admin route</h1>
       <p>This route should be protected</p>
-      <div>
-        <Link to="/">Back home</Link>
-      </div>
-    </>
+    </div>
   )
 }

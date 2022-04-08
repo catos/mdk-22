@@ -61,6 +61,11 @@ export async function getUser(request: Request) {
 
   const { user } = await getUserByToken(token)
 
+  if (!user) {
+    return null
+  }
+  
+
   const { data: profile } = user
     ? await supabase.from("profiles").select().eq("id", user.id).single()
     : { data: null }

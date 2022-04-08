@@ -7,10 +7,19 @@ module.exports = {
   // server. This does not understand the vercel lambda module format,
   // so we default back to the standard build output.
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
-  ignoredRouteFiles: [".*"]
+  ignoredRouteFiles: [".*"],
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "api/index.js",
   // publicPath: "/build/",
   // devServerPort: 8002
+  routes(defineRoutes) {
+    return defineRoutes((route) => {
+      route("/logg-inn", "routes/auth/login.tsx")
+      route("/registrer", "routes/auth/register.tsx")
+      route("/logg-ut", "routes/auth/logout.tsx")
+      route("/oppskrifter", "routes/recipes/index.tsx")
+      route("/oppskrifter/:slug", "routes/recipes/$slug.tsx")
+    });
+  }
 };
