@@ -1,10 +1,17 @@
 import { ActionFunction, json } from "@remix-run/node";
 import { Form, Link, useActionData } from "@remix-run/react";
-import { createUser, IUser } from "~/utils/auth";
+import { createUser } from "~/utils/auth";
+
+interface IForm {
+  email: string
+  password: string
+  name: string
+  avatar: string
+}
 
 type ActionData = {
   error?: string
-  form?: IUser
+  form?: IForm
 };
 
 export const action: ActionFunction = async ({ request }): Promise<Response | ActionData> => {
@@ -31,12 +38,12 @@ export const action: ActionFunction = async ({ request }): Promise<Response | Ac
       return json({ error: "Avatar must be at least 2 characters long" }, { status: 422 })
     }
 
-    const { user, error } = await createUser({
+    const { user, error } = await createUser(
       email,
       password,
       name,
       avatar,
-    });
+    )
 
     if (error) {
       // return json({ error }, { status: 500 })

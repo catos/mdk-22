@@ -5,33 +5,42 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production remix build",
-    "dev-default": "cross-env NODE_ENV=development remix dev",
-    "dev": "node -r dotenv/config node_modules/.bin/remix dev",
-    "postinstall": "remix setup node"
+    "build": "run-s build:*",
+    "build:css": "npm run generate:css -- --minify",
+    "build:remix": "remix build",
+    "dev": "run-p dev:*",
+    "dev:css": "npm run generate:css -- --watch",
+    "dev:remix": "remix dev",
+    "generate:css": "npx tailwindcss -i ./styles/tailwind.css -o ./app/tailwind.css",
+    "backup_generate:css": "npx tailwindcss -o ./app/tailwind.css",
+    
+    "backup_build": "cross-env NODE_ENV=production remix build",
+    "backup_dev-default": "cross-env NODE_ENV=development remix dev",
+    "backup_dev": "node -r dotenv/config node_modules/.bin/remix dev",
+    "backup_postinstall": "remix setup node"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
-    "@supabase/supabase-js": "^1.33.3",
-
     "@remix-run/node": "^1.3.5",
     "@remix-run/react": "^1.3.5",
     "@remix-run/vercel": "^1.3.5",
+    "@supabase/supabase-js": "^1.33.3",
     "@vercel/node": "^1.14.0",
+    "dotenv": "^16.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
-    },
+  },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "@remix-run/dev": "^1.3.5",
     "@remix-run/eslint-config": "^1.3.5",
     "@remix-run/serve": "^1.3.5",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "cross-env": "^7.0.3",
     "eslint": "^8.11.0",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.0.23",
     "typescript": "^4.6.3"
-  
-    },
+  },
   "engines": {
     "node": ">=14"
   }
